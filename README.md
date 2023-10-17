@@ -1,8 +1,7 @@
 # Linux-kernel-compilation
 This repository has the required details which are required to compile the linux kernel on different platforms
 
-## QEmu installtion on Ubuntu for ARM
-# Required libraries
+## Required libraries
 - `sudo apt-get update`
 - `sudo apt-get upgrade`
 - `sudo apt install python3-venv`
@@ -16,7 +15,18 @@ This repository has the required details which are required to compile the linux
 - `sudo apt-get install libvde-dev libvdeplug-dev libvte-2.91-dev libxen-dev liblzo2-dev`
 - `sudo apt-get install valgrind xfslibs-dev`
 - `sudo apt-get install libnfs-dev libiscsi-dev`
-# QEmu build and Installtion
+- sudo apt-get install build-essential autoconf libtool cmake pkg-config python2-dev python2 python-dev-is-python3 swig3.0 libpcre3-dev libnode-dev gawk wget diffstat device-tree-compiler
+- `sudo apt install git bc build-essential flex bison libssl-dev libelf-dev dwarves`
+- `sudo apt-get install binutils-multiarch`
+- `sudo apt-get install ncurses-dev` used for kernel configurations
+- `sudo apt-get install alien` used for to covnert .rpm file into .deb file
+
+## Install Cross compilation tool chain
+- `sudo apt-get install gcc-aarch64-linux-gnu` AARCH64
+- `sudo apt-get install gcc-arm-linux-gnueabi` AARCH32
+For sanity test execute `aarch64-linux-gnu-gcc --version` for 64bit compilation or `arm-linux-gnueabi--gcc --version`
+
+## QEmu installtion on Ubuntu for ARM
 - `git clone https://gitlab.com/qemu-project/qemu.git`
 - `cd qemu`
 - `mkdir build && cd build`
@@ -27,22 +37,44 @@ This repository has the required details which are required to compile the linux
 
 ## Creating initrd (Initial RAM Disk) using busy box
 initrd is an temperory file system in memory, which is used during linux startup process
+- `mkdir -p geninitrd/rootfs`
+- `cd geninitrd`
+- `wget https://busybox.net/downloads/busybox-1_36_1.tar.bz2`
+- `tar -xvf busybox-1_36_1.tar.bz2`
+- `cd busybox-1_36_1`
+- `make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- defconfig`
+- `make ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- menuconfig`
+    Make sure to set the option for a statically-linked BusyBox (in Settings - Build options)
+- `make ARCH=aarch64 CROSS_COMPILE=aarch64-linux-gnu- install CONFIG_PREFIX=../rootfs`
+- `cd ../rootfs`
+- `mkdir proc sys dev etc etc/init.d usr/lib home home/root root`
+- `touch etc/init.d/rcS`
+- `chmod +x etc/init.d/rcS`
+- update `etc/init.d/rcS` with below code
+```
+#!bin/sh
+mount -t proc none /proc
+mount -t sysfs none /sys
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+```
+- `cd ..`
+- `dd if=/dev/zero of=minrootfs.ext3 bs=1M count=32`
+- `mkfs.ext3 minrootfs.ext3`
+- `mkdir -p tmpfs`
+- `sudo mount -t ext3 minrootfs.ext3 tmpfs/ -o loop`
+- `sudo cp -r rootfs/* tmpfs/`
+- `sudo sync`
+- `sudo umount tmpfs`
+- `rmdir tmpfs`
+  
 
-## Windows Subsystem Linux
-# Install required build utilities
-- `sudo apt install git bc build-essential flex bison libssl-dev libelf-dev dwarves`
-- `sudo apt-get install binutils-multiarch`
-- `sudo apt-get install ncurses-dev` used for kernel configurations
-- `sudo apt-get install alien` used for to covnert .rpm file into .deb file
-# Install Cross compilation tool chain
-- `sudo apt-get install gcc-aarch64-linux-gnu` AARCH64
-- `sudo apt-get install gcc-arm-linux-gnueabi` AARCH32
-For sanity test execute `aarch64-linux-gnu-gcc --version` for 64bit compilation or `arm-linux-gnueabi--gcc --version`
-# AARCH32 Linux kernel compilation
+## Kernel Compilation
+### AARCH32 Linux kernel compilation
 - make distclean
 - make ARCH=arm defconfig
 - ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make all
-# AARCH64 Linux kernel compilation
+### AARCH64 Linux kernel compilation
 - make distclean
 - make ARCH=arm64 defconfig
 - ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- make all
@@ -52,3 +84,14 @@ For sanity test execute `aarch64-linux-gnu-gcc --version` for 64bit compilation 
   - Location - `Kernel Hacking` --\> `Tracers` --\> `Compile time checks and compiler options`
 - `GDB_SCRIPTS=Y`
   - Location - `Kernel Hacking` --\> `Tracers` --\> `Compile time checks and compiler options` --\> `Provide GDB scripts for kernel debugging`
+ 
+## Qemu and GDB 
+####Qemu command
+`qemu-system-aarch64` -smp 2 -machine virt -m 1024 -cpu cortex-a53  -kernel <Image> -append 'root=/dev/vda console=ttyAMA0' -drive if=none,file=minrootfs.ext3,id=hd0 -device virtio-blk-device,drive=hd0 -nographic
+
+-s and -S is used for debugging
+
+####GDB debug
+`gdb-multiarch vmlinux`
+set target remote :1234
+
