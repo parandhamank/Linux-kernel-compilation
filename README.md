@@ -1,6 +1,22 @@
 # Linux-kernel-compilation
 This repository has the required details which are required to compile the linux kernel on different platforms
 
+## QEmu installtion on Ubuntu for ARM
+- `sudo apt-get update`
+- `sudo apt-get upgrade`
+- `sudo apt install python3-venv`
+- `sudo apt install git`
+- `git clone https://gitlab.com/qemu-project/qemu.git`
+- `cd qemu`
+- `mkdir build && cd build`
+- `../configure --enable-debug --target-list=arm-softmmu,aarch64-softmmu`
+    - `configure --help` for more info
+- `make -j\<no of cores\>`
+- `make install`
+
+## Creating initrd (Initial RAM Disk) using busy box
+initrd is an temperory file system in memory, which is used during linux startup process
+
 ## Windows Subsystem Linux
 # Install required build utilities
 - `sudo apt install git bc build-essential flex bison libssl-dev libelf-dev dwarves`
