@@ -87,8 +87,9 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
  
 ## Qemu and GDB 
 ####Qemu command
-`qemu-system-aarch64` -smp 2 -machine virt -m 1024 -cpu cortex-a53  -kernel <Image> -append 'root=/dev/vda console=ttyAMA0' -drive if=none,file=minrootfs.ext3,id=hd0 -device virtio-blk-device,drive=hd0 -nographic
+`qemu-system-aarch64` -smp 2 -machine virt -m 1024 -cpu cortex-a53  -kernel Image -append 'root=/dev/vda console=ttyAMA0 nokaslr' -drive if=none,file=minrootfs.ext3,id=hd0 -device virtio-blk-device,drive=hd0 -nographic
 
+nokaslr tells to allow kernel debugging
 -s and -S is used for debugging
 
 ####GDB debug
