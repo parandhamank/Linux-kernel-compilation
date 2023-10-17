@@ -2,6 +2,7 @@
 This repository has the required details which are required to compile the linux kernel on different platforms
 
 ## QEmu installtion on Ubuntu for ARM
+# Required libraries
 - `sudo apt-get update`
 - `sudo apt-get upgrade`
 - `sudo apt install python3-venv`
@@ -15,6 +16,7 @@ This repository has the required details which are required to compile the linux
 - `sudo apt-get install libvde-dev libvdeplug-dev libvte-2.91-dev libxen-dev liblzo2-dev`
 - `sudo apt-get install valgrind xfslibs-dev`
 - `sudo apt-get install libnfs-dev libiscsi-dev`
+# QEmu build and Installtion
 - `git clone https://gitlab.com/qemu-project/qemu.git`
 - `cd qemu`
 - `mkdir build && cd build`
