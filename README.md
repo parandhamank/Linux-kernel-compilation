@@ -94,5 +94,5 @@ nokaslr tells to allow kernel debugging
 
 ####GDB debug
 `gdb-multiarch vmlinux`
-set target remote :1234
+`target remote :1234` to attach the target
 
