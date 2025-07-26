@@ -34,6 +34,7 @@ chmod +x /init
 - cd initramfs/bin and copy busybox image here
 - create all the commands symlinks for ls command be like _ln -s busybox ls_
 <pre>
+#!/bin/sh
 for cmd in sh ls echo cat mount uname sleep dmesg; do
   ln -s busybox $cmd
 done
