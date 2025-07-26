@@ -15,13 +15,21 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- busybox -j$(nproc)
 ## Create initramfs
 ### Step 1 - Create minimal initramfs filesystem
 - mkdir -p initramfs/{bin,sbin,etc,proc,sys,dev}
+- create /init file with below code
+<pre>
+  #!/bin/sh
+  mount -t proc none /proc
+  mount -t sysfs none /sys
+  echo -e "\n[OK] ARM Initramfs Booted Successfully!\n"
+  exec setsid /bin/sh </dev/console >/dev/console 2>&1
+</pre>
 
 ### Step 2 - Add busybox and symlinks to all the commands
 - cd initramfs/bin and copy busybox image here
 - create all the commands symlinks for ls command be like _ln -s busybox ls_
 <pre>
-for cmd in sh ls echo cat mount uname sleep dmesg; do
-  ln -s busybox $cmd
-done
+  for cmd in sh ls echo cat mount uname sleep dmesg; do
+    ln -s busybox $cmd
+  done
 </pre>
 ## Boot kernel on qemu
