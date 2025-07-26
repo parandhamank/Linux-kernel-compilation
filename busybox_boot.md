@@ -3,6 +3,7 @@
 ## Compile linux kernel
 
 ## Compile busybox
+- Checkout and extract busybox
 <pre>
   tar -xf busybox-1.36.1.tar.bz2
 </pre>
