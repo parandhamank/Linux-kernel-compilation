@@ -22,8 +22,8 @@
 - Right click on project -> Properties -> C/C++ General -> Preprocessor Include Paths, Macros, etc -> GNU C [in Entries Tab] -> CDT User Setting Entries
 - Click on Add -> select (Preprocessor Macro)
 - Define
-    - __KERNEL__
-    - __LINUX_ARM_ARCH__ = 7 (for armv7a arch)
+    - \__KERNEL__
+    - \__LINUX_ARM_ARCH__ = 7 (for armv7a arch)
 
 ## Add Include Paths
 - Right click on project -> Properties -> C/C++ General -> Preprocessor Include Paths, Macros, etc -> GNU C [in Entries Tab] -> CDT User Setting Entries
