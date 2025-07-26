@@ -31,5 +31,5 @@
 - include following paths,
     - include
     - arch/arm/include
-    - arch/arm/mach-<MACH>/include
+    - arch/arm/mach-\<MACH>/include
     - arch/arm/plat-<MACH>/include
