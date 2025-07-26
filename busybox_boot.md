@@ -35,9 +35,14 @@ chmod +x /init
 - create all the commands symlinks for ls command be like _ln -s busybox ls_
 <pre>
 #!/bin/sh
+cd bin
 for cmd in sh ls echo cat mount uname sleep dmesg; do
   ln -s busybox $cmd
 done
+cd ..
+# create required device nodes
+sudo mknod dev/console c 5 1
+sudo mknod dev/null c 1 3
 </pre>
 
 ### Bundle busybox and create rootfs.cpio.gz image
