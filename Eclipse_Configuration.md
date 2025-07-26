@@ -33,3 +33,5 @@
     - arch/arm/include
     - arch/arm/mach-\<MACH>/include
     - arch/arm/plat-\<MACH>/include
+
+## Exclude directories which are not useful (Arch specific)
