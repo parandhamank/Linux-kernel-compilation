@@ -52,3 +52,6 @@ find initramfs -print0 | cpio --null -ov --format=newc | gzip -9 > rootfs.cpio.g
 </pre>
 
 ## 4. Boot kernel on qemu
+<pre>
+qemu-system-arm -M versatilepb -kernel arch/arm/boot/zImage -dtb arch/arm/boot/dts/arm/versatile-pb.dtb -initrd rootfs.cpio.gz -append "console=ttyAMA0 rdinit=/init" -nographic
+</pre>
