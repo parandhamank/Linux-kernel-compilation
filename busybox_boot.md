@@ -1,4 +1,4 @@
-<img width="331" height="19" alt="image" src="https://github.com/user-attachments/assets/79c58204-e8f7-44d2-ba63-6db6d62540dc" /># Step by Step procedure to boot linux kernel with busybox
+# Step by Step procedure to boot linux kernel with busybox
 
 ## Compile linux kernel
 
