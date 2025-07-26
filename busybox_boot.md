@@ -12,5 +12,13 @@
 ## Create initramfs
 ### Step 1 - Create minimal initramfs filesystem
 - mkdir -p initramfs/{bin,sbin,etc,proc,sys,dev}
-- cd initramfs
+
+### Step 2 - Add busybox and symlinks to all the commands
+- cd initramfs/bin and copy busybox image here
+- create all the commands symlinks for ls command be like <pre>ln -s busybox ls</pre>
+<pre>
+for cmd in sh ls echo cat mount uname sleep dmesg; do
+  ln -s busybox $cmd
+done
+</pre>
 ## Boot kernel on qemu
