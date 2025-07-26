@@ -18,7 +18,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- busybox -j$(nproc)
 
 ### Step 2 - Add busybox and symlinks to all the commands
 - cd initramfs/bin and copy busybox image here
-- create all the commands symlinks for ls command be like <pre>ln -s busybox ls</pre>
+- create all the commands symlinks for ls command be like <b>ln -s busybox ls</b>
 <pre>
 for cmd in sh ls echo cat mount uname sleep dmesg; do
   ln -s busybox $cmd
