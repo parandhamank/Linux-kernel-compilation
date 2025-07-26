@@ -3,12 +3,15 @@
 ## Compile linux kernel
 
 ## Compile busybox
-- tar -xf busybox-1.36.1.tar.bz2
+<pre>
+  tar -xf busybox-1.36.1.tar.bz2
+</pre>
 - Edit Makefile.config file and add -g -O0 flags as part of CFLAGS
-- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- defconfig
-- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig
-- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- busybox -j$(nproc)
-
+<pre>
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- defconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig
+make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- busybox -j$(nproc)
+</pre>
 ## Create initramfs
 ### Step 1 - Create minimal initramfs filesystem
 - mkdir -p initramfs/{bin,sbin,etc,proc,sys,dev}
