@@ -1,9 +1,16 @@
-# Step by Step procedure to boot linux kernel with busybox
+<img width="331" height="19" alt="image" src="https://github.com/user-attachments/assets/79c58204-e8f7-44d2-ba63-6db6d62540dc" /># Step by Step procedure to boot linux kernel with busybox
 
 ## Compile linux kernel
 
 ## Compile busybox
+- tar -xf busybox-1.36.1.tar.bz2
+- Edit Makefile.config file and add -g -O0 flags as part of CFLAGS
+- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- defconfig
+- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- menuconfig
+- make ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- busybox -j$(nproc)
 
 ## Create initramfs
-
+### Step 1 - Create minimal initramfs filesystem
+- mkdir -p initramfs/{bin,sbin,etc,proc,sys,dev}
+- cd initramfs
 ## Boot kernel on qemu
